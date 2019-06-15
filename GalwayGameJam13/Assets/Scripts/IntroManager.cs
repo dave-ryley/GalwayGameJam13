@@ -6,11 +6,13 @@ public class IntroManager : MonoBehaviour
 {
     public void Quit()
     {
-        Application.Quit();
+        //Application.Quit();
+        GGJGameManager.SetState("mainMenu");
     }
 
     public void startGame()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene("Game");
+        //UnityEngine.SceneManagement.SceneManager.LoadScene("Game");
+        GGJGameManager.SetState("play");
     }
 }

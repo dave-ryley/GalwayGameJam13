@@ -49,7 +49,18 @@ public class GGJGameManager : MonoBehaviour
         }
     }
 
-#region Public members
+    private void setMusic(bool musicActive)
+    {
+        if (musicActive)
+        {
+            _audioManager.Stop();
+            _audioManager.Play();
+        }
+        else { _audioManager.Stop(); }
+    }
+
+
+    #region Public members
 
     public static void HandleInput(string inputKey)
     {
@@ -61,5 +72,9 @@ public class GGJGameManager : MonoBehaviour
         _instance.setState(stateKey);
     }
 
+    public static void SetMusic(bool musicActive)
+    {
+        _instance.setMusic(musicActive);
+    }
 #endregion
 }

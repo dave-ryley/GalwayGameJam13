@@ -11,11 +11,11 @@ public class PlayState : IGameState
 
     public void OnStateEnter()
     {
-
+        GGJGameManager.SetMusic(true);
     }
 
     public void OnStateExit()
     {
-
+        GGJGameManager.SetMusic(false);
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GGJAudioManager : MonoBehaviour
 {
-    public AudioSource _audioSource;
+    private AudioSource _audioSource;
     private bool _assetLoaded;
     private bool _playOnAssetLoad;
 
@@ -27,7 +27,7 @@ public class GGJAudioManager : MonoBehaviour
                 if (_playOnAssetLoad)
                 {
                     _playOnAssetLoad = false;
-                    PlayMusic();
+                    Play();
                 }
             }
             else
@@ -51,16 +51,16 @@ public class GGJAudioManager : MonoBehaviour
     public void Mute()
     {
         if (_audioSource.isPlaying)
-        { StopMusic(); }
-        else { PlayMusic(); }
+        { Stop(); }
+        else { Play(); }
     }
 
-    public void PlayMusic()
+    public void Play()
     {
         _audioSource.Play();
     }
 
-    public void StopMusic()
+    public void Stop()
     {
         _audioSource.Stop();
     }
