@@ -14,6 +14,7 @@ public class GGJInputManager : MonoBehaviour
         {
             if(Input.GetKeyDown(_inputs[i]))
             {
+                Debug.Log("Input key: " + _inputs[i]);
                 GGJGameManager.HandleInput(_inputs[i]);
             }
         }
