@@ -13,8 +13,7 @@ public class Value_Collector : MonoBehaviour
 
     public String getTotalScore()
     {
-        String score = ("Total score accumulated: " + coinsCollected);
-        return String;
+        Debug.Log("Total score accumulated: " + coinsCollected);
     }
 
     void Update()
