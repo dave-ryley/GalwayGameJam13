@@ -27,6 +27,7 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         if(health.alive == true){
+            
         horizontalMove = transform.position.x + runSpeed;
 
         animator.SetFloat("Speed", horizontalMove);
@@ -37,7 +38,7 @@ public class PlayerMovement : MonoBehaviour
             animator.SetBool("IsJumping", true);
         }
     }
-    
+
         else
         {
             animator.SetFloat("Speed", newSpeed);
