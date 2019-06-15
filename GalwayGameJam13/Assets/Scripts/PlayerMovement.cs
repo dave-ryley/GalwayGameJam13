@@ -20,14 +20,14 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
-           
+
     }
 
     // Update is called once per frame
     void Update()
     {
         if(health.alive == true){
-            
+
         horizontalMove = transform.position.x + runSpeed;
 
         animator.SetFloat("Speed", horizontalMove);

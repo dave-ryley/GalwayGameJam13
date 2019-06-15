@@ -6,7 +6,11 @@ public class PlayState : IGameState
 {
     public void HandleInput(string key)
     {
-
+        Player player;
+        if(GGJGameManager.TryGetPlayer(key, out player))
+        {
+            player.Jump();
+        }
     }
 
     public void OnStateEnter()
@@ -15,6 +19,11 @@ public class PlayState : IGameState
     }
 
     public void OnStateExit()
+    {
+
+    }
+
+    public void OnStateUpdate(float deltaTime)
     {
 
     }

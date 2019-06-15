@@ -4,11 +4,20 @@ using UnityEngine;
 
 public class JoinGameState : IGameState
 {
+    private const int BLOCK_START = -20;
+    private const int BLOCK_COUNT = 40;
+    private const int BLOCK_WIDTH = 1;
+    private const float SPEED = 5f;
+
     private GameObject _playerPrefab;
+    private GameObject _groundPrefab;
+    private List<GameObject> _groundBlocks;
 
     public JoinGameState()
     {
+        _groundBlocks = new List<GameObject>();
         _playerPrefab = Resources.Load("Prefabs/Player") as GameObject;
+        _groundPrefab = Resources.Load("Prefabs/GroundBlock") as GameObject;
     }
 
     public void HandleInput(string key)
@@ -16,7 +25,8 @@ public class JoinGameState : IGameState
         Player player;
         if(GGJGameManager.TryGetPlayer(key, out player))
         {
-            GGJGameManager.RemovePlayer(key);
+            // GGJGameManager.RemovePlayer(key);
+            player.Jump();
         }
         else
         {
@@ -29,11 +39,39 @@ public class JoinGameState : IGameState
 
     public void OnStateEnter()
     {
-
+        for(int i = BLOCK_START; i < BLOCK_START + BLOCK_COUNT; i += BLOCK_WIDTH)
+        {
+            GameObject block = GameObject.Instantiate(_groundPrefab);
+            block.transform.position = new Vector3(i, -3, 0);
+            _groundBlocks.Add(block);
+        }
     }
 
     public void OnStateExit()
     {
+        for(int i = _groundBlocks.Count; i >= 0; i--)
+        {
+            GameObject block = _groundBlocks[i];
+            _groundBlocks.RemoveAt(i);
+            Object.Destroy(block);
+        }
+    }
 
+    public void OnStateUpdate(float deltaTime)
+    {
+        float offset = deltaTime * SPEED;
+        for(int i = 0; i < _groundBlocks.Count;)
+        {
+            GameObject block = _groundBlocks[i];
+            block.transform.position = new Vector3(block.transform.position.x - offset, -3, 0);
+            if(block.transform.position.x < BLOCK_START)
+            {
+                block.transform.position = new Vector3(block.transform.position.x + BLOCK_COUNT, -3, 0);
+            }
+            else
+            {
+                i++;
+            }
+        }
     }
 }
