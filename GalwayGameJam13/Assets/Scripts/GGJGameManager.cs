@@ -83,14 +83,12 @@ public class GGJGameManager : MonoBehaviour
         return _players.Count;
     }
 
-    private string[] getPlayerNames()
+    private List<string> getPlayerNames()
     {
-        int DictNum = 0;
-        string[] names = null; 
+        var names = new List<string>();
         foreach (var item in _players)
         {
-            names[DictNum] = item.Key;
-            
+            names.Add(item.Key);
         }
         return names;
     }
@@ -118,7 +116,7 @@ public class GGJGameManager : MonoBehaviour
         return _instance.getPlayersCount();
     }
 
-    public static string[] GetPlayerNames()
+    public static List<string> GetPlayerNames()
     {
         return _instance.getPlayerNames();
     }

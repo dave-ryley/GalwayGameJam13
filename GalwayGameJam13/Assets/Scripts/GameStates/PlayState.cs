@@ -6,11 +6,11 @@ using UnityEngine.UI;
 public class PlayState : IGameState
 {
     private Text scoreUI;
-    private GameObject _playerPrefab;
+    //private GameObject _playerPrefab;
 
     public PlayState()
     {
-        _playerPrefab = Resources.Load("Prefabs/Player") as GameObject;
+        //_playerPrefab = Resources.Load("Prefabs/Player") as GameObject;
     }
 
 
@@ -22,12 +22,14 @@ public class PlayState : IGameState
     public void OnStateEnter()
     {
         scoreUI = Object.FindObjectOfType<Text>();
-        string[] names = GGJGameManager.GetPlayerNames();
-        for (int i = 0; i < GGJGameManager.GetPlayersCount(); i++)
+        List<string> names = GGJGameManager.GetPlayerNames();
+        Debug.Log("names.Count = " + names.Count);
+        scoreUI.text = "";
+        for (int i = 0; i < names.Count; i++)
         {
             Player player;
             GGJGameManager.TryGetPlayer(names[i], out player);
-            scoreUI.text += names[i] + ": " + player.score;
+            scoreUI.text += names[i] + ": " + player.score + "\t";
         }  
         
         GGJGameManager.SetMusic(true);
