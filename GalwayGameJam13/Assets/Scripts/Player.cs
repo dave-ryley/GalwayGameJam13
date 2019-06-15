@@ -13,7 +13,7 @@ public class Player : MonoBehaviour
         text.text = key.ToUpper();
     }
 
-    public void ReceieveCoins(float amount)
+    public void ReceieveCoins(int amount)
     {
         score += amount;
     }
