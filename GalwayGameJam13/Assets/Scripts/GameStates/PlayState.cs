@@ -5,12 +5,16 @@ using UnityEngine.UI;
 
 public class PlayState : IGameState
 {
+    private const float SPEED = 10f;
     private GameObject TextPrefab;
     private GameObject _textPrefab;
+    private GameObject _levelPrefab;
+    private Transform _level;
 
     public PlayState()
     {
         TextPrefab = Resources.Load("Prefabs/ScoreUI") as GameObject;
+        _levelPrefab = Resources.Load("Prefabs/Level") as GameObject;
     }
 
     public void HandleKeyDown(string key)
@@ -52,6 +56,9 @@ public class PlayState : IGameState
         //     _textPrefab.transform.SetParent(scoreLayouts[j].transform, false);
         // }
 
+        _level = (Object.Instantiate(_levelPrefab) as GameObject).transform;
+        _level.position = Vector3.zero;
+
         GGJGameManager.SetMusic(true);
 
     }
@@ -63,6 +70,7 @@ public class PlayState : IGameState
 
     public void OnStateUpdate(float deltaTime)
     {
-
+        float offset = deltaTime * SPEED;
+        _level.position = new Vector3(_level.position.x - offset, 0f, 0f);
     }
 }
