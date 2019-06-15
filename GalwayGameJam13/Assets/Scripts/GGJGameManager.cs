@@ -8,6 +8,7 @@ public class GGJGameManager : MonoBehaviour
 {
     private static GGJGameManager _instance;
     private GGJInputManager _inputManager;
+    private GGJAudioManager _audioManager;
     private Dictionary<string, IGameState> _gameStates;
     private IGameState _curGameState;
 
@@ -26,6 +27,8 @@ public class GGJGameManager : MonoBehaviour
         };
         _inputManager = GetComponent<GGJInputManager>();
         _inputManager.Setup();
+        _audioManager = GetComponent<GGJAudioManager>();
+        _audioManager.Setup();
 
         _curGameState.OnStateEnter();
     }

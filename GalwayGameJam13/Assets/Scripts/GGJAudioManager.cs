@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MusicPlayer : MonoBehaviour
+public class GGJAudioManager : MonoBehaviour
 {
     public AudioSource _audioSource;
     private bool _assetLoaded;
@@ -10,7 +10,7 @@ public class MusicPlayer : MonoBehaviour
 
     public void Setup()
     {
-        string assetName = "DaireStuff/RoughMusic";
+        string assetName = "RoughMusic";
         _audioSource = GetComponent<AudioSource>();
         AudioClip clip = Resources.Load(assetName) as AudioClip;
         if (clip == null)
@@ -40,7 +40,7 @@ public class MusicPlayer : MonoBehaviour
             DontDestroyOnLoad(transform.gameObject);
         
 
-        if (FindObjectsOfType<MusicPlayer>().Length > 1)
+        if (FindObjectsOfType<GGJAudioManager>().Length > 1)
         {
             Destroy(gameObject);
         }
