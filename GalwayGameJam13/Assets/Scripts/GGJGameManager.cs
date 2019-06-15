@@ -78,7 +78,25 @@ public class GGJGameManager : MonoBehaviour
         return _players.ContainsKey(key);
     }
 
-#region Public members
+    private int getPlayersCount()
+    {
+        return _players.Count;
+    }
+
+    private string[] getPlayerNames()
+    {
+        int DictNum = 0;
+        string[] names = null; 
+        foreach (var item in _players)
+        {
+            names[DictNum] = item.Key;
+            
+        }
+        return names;
+    }
+
+
+    #region Public members
 
     public static void AddPlayer(string playerKey, Player player)
     {
@@ -93,6 +111,16 @@ public class GGJGameManager : MonoBehaviour
     public static bool TryGetPlayer(string key, out Player player)
     {
         return _instance._players.TryGetValue(key, out player);
+    }
+
+    public static int GetPlayersCount()
+    {
+        return _instance.getPlayersCount();
+    }
+
+    public static string[] GetPlayerNames()
+    {
+        return _instance.getPlayerNames();
     }
 
     public static void RemovePlayer(string key)

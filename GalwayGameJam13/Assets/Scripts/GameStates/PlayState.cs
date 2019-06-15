@@ -6,7 +6,14 @@ using UnityEngine.UI;
 public class PlayState : IGameState
 {
     private Text scoreUI;
-    private Player player;
+    private GameObject _playerPrefab;
+
+    public PlayState()
+    {
+        _playerPrefab = Resources.Load("Prefabs/Player") as GameObject;
+    }
+
+
     public void HandleInput(string key)
     {
 
@@ -14,17 +21,17 @@ public class PlayState : IGameState
 
     public void OnStateEnter()
     {
-        /*
-        Player player;
-        if (GGJGameManager.TryGetPlayer(key, out player))
+        scoreUI = Object.FindObjectOfType<Text>();
+        string[] names = GGJGameManager.GetPlayerNames();
+        for (int i = 0; i < GGJGameManager.GetPlayersCount(); i++)
         {
-            GGJGameManager.RemovePlayer(key);
-        }
-        player.score = 0;
-        scoreUI = GameObject.FindObjectOfType<Text>();
-        scoreUI.text = player.name + ": " + player.score;
+            Player player;
+            GGJGameManager.TryGetPlayer(names[i], out player);
+            scoreUI.text += names[i] + ": " + player.score;
+        }  
+        
         GGJGameManager.SetMusic(true);
-        */
+        
     }
 
     public void OnStateExit()
