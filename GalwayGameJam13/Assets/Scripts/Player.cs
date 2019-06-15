@@ -15,6 +15,7 @@ public class Player : MonoBehaviour
     private Rigidbody2D _rigidbody2D;
     private bool _grounded;
     private float _transition = 1f;
+    public int score = 0;
 
     public void Setup(string key)
     {
@@ -65,5 +66,10 @@ public class Player : MonoBehaviour
             }
         }
         _grounded = false;
+    }
+
+    public void ReceieveCoins(int amount)
+    {
+        score += amount;
     }
 }
