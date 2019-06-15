@@ -20,7 +20,7 @@ public class PauseMenu : MonoBehaviour
     }
     void QuitLevel()
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene("MainMenu");
     }
 
     void ResumeLevel()
