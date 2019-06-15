@@ -5,8 +5,11 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public int score = 0;
-
-    void setName(string name)
-    { gameObject.name = name; }
     
+    public void Setup(string key)
+    {
+        Transform textTransform = transform.GetChild(0);
+        TextMesh text = textTransform.GetComponent<TextMesh>();
+        text.text = key.ToUpper();
+    }
 }
