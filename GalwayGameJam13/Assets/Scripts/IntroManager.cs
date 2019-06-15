@@ -6,7 +6,8 @@ public class IntroManager : MonoBehaviour
 {
     public void Quit()
     {
-        Application.Quit();
+        //Application.Quit();
+        GGJGameManager.SetState("mainMenu");
     }
 
     public void startGame()

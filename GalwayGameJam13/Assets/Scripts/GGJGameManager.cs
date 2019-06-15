@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
+[RequireComponent(typeof(GGJAudioManager))]
 [RequireComponent(typeof(GGJInputManager))]
 public class GGJGameManager : MonoBehaviour
 {
     private static GGJGameManager _instance;
     private GGJInputManager _inputManager;
+    private GGJAudioManager _audioManager;
     private Dictionary<string, IGameState> _gameStates;
     private IGameState _curGameState;
     private CameraGroupManager _cameraGroupManager;
@@ -29,6 +31,8 @@ public class GGJGameManager : MonoBehaviour
         };
         _inputManager = GetComponent<GGJInputManager>();
         _inputManager.Setup();
+        _audioManager = GetComponent<GGJAudioManager>();
+        _audioManager.Setup();
 
         _curGameState.OnStateEnter();
     }
@@ -41,12 +45,22 @@ public class GGJGameManager : MonoBehaviour
     private void setState(string stateKey)
     {
         IGameState newState;
-        if(_gameStates.TryGetValue(stateKey, out newState))
+        if (_gameStates.TryGetValue(stateKey, out newState))
         {
             _curGameState.OnStateExit();
             _curGameState = newState;
             newState.OnStateEnter();
         }
+    }
+
+    private void setMusic(bool musicActive)
+    {
+        if (musicActive)
+        {
+            _audioManager.Stop();
+            _audioManager.Play();
+        }
+        else { _audioManager.Stop(); }
     }
 
     private void registerCameraGroup(CameraGroupManager cameraGroupManager)
@@ -65,12 +79,22 @@ public class GGJGameManager : MonoBehaviour
         return _players.ContainsKey(key);
     }
 
+    private List<string> getPlayerNames()
+    {
+        var names = new List<string>();
+        foreach (var item in _players)
+        {
+            names.Add(item.Key);
+        }
+        return names;
+    }
+
+
+    #region Public members
     void Update()
     {
         _curGameState.OnStateUpdate(Time.deltaTime);
     }
-
-#region Public members
 
     public static void AddPlayer(string playerKey, Player player)
     {
@@ -85,6 +109,11 @@ public class GGJGameManager : MonoBehaviour
     public static bool TryGetPlayer(string key, out Player player)
     {
         return _instance._players.TryGetValue(key, out player);
+    }
+
+    public static List<string> GetPlayerNames()
+    {
+        return _instance.getPlayerNames();
     }
 
     public static void RemovePlayer(string key)
@@ -104,10 +133,14 @@ public class GGJGameManager : MonoBehaviour
         _instance.setState(stateKey);
     }
 
+    public static void SetMusic(bool musicActive)
+    {
+        _instance.setMusic(musicActive);
+    }
     public static void RegisterCameraGroup(CameraGroupManager cameraGroupManager)
     {
         _instance.registerCameraGroup(cameraGroupManager);
     }
 
-#endregion
+    #endregion
 }

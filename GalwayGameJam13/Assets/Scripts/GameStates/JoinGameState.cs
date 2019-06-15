@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class JoinGameState : IGameState
 {
@@ -10,6 +11,9 @@ public class JoinGameState : IGameState
     private const float SPEED = 5f;
 
     private GameObject _playerPrefab;
+    private GameObject _canvasPrefab;
+    private GameObject TextPrefab;
+    private GameObject _textPrefab;
     private GameObject _groundPrefab;
     private List<GameObject> _groundBlocks;
 
@@ -17,9 +21,11 @@ public class JoinGameState : IGameState
     {
         _groundBlocks = new List<GameObject>();
         _playerPrefab = Resources.Load("Prefabs/Player") as GameObject;
+        //_canvasPrefab = Resources.Load("Prefabs/Canvas") as GameObject;
+        TextPrefab = Resources.Load("Prefabs/Continue") as GameObject;
         _groundPrefab = Resources.Load("Prefabs/GroundBlock") as GameObject;
     }
-
+    
     public void HandleInput(string key)
     {
         if(key.Equals("space"))
@@ -46,12 +52,17 @@ public class JoinGameState : IGameState
 
     public void OnStateEnter()
     {
-        for(int i = BLOCK_START; i < BLOCK_START + BLOCK_COUNT; i += BLOCK_WIDTH)
+        /* GameObject canvas = Object.Instantiate(_canvasPrefab);
+         _textPrefab = Object.Instantiate(TextPrefab);
+         _textPrefab.transform.SetParent(canvas.transform, false);
+          */
+        for (int i = BLOCK_START; i < BLOCK_START + BLOCK_COUNT; i += BLOCK_WIDTH)
         {
             GameObject block = GameObject.Instantiate(_groundPrefab);
             block.transform.position = new Vector3(i, -3, 0);
             _groundBlocks.Add(block);
         }
+       
     }
 
     public void OnStateExit()
