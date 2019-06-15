@@ -67,11 +67,7 @@ public class GGJGameManager : MonoBehaviour
 
     void Update()
     {
-        float deltaTime = Time.deltaTime;
-        foreach(KeyValuePair<string, IGameState> statePair in _gameStates)
-        {
-            statePair.Value.OnStateUpdate(deltaTime);
-        }
+        _curGameState.OnStateUpdate(Time.deltaTime);
     }
 
 #region Public members

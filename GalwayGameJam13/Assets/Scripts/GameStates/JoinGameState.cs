@@ -22,18 +22,25 @@ public class JoinGameState : IGameState
 
     public void HandleInput(string key)
     {
-        Player player;
-        if(GGJGameManager.TryGetPlayer(key, out player))
+        if(key.Equals("space"))
         {
-            // GGJGameManager.RemovePlayer(key);
-            player.Jump();
+            GGJGameManager.SetState("play");
         }
         else
         {
-            GameObject playerGO = GameObject.Instantiate(_playerPrefab);
-            player = playerGO.GetComponent<Player>();
-            player.Setup(key);
-            GGJGameManager.AddPlayer(key, player);
+            Player player;
+            if(GGJGameManager.TryGetPlayer(key, out player))
+            {
+                // GGJGameManager.RemovePlayer(key);
+                player.Jump();
+            }
+            else
+            {
+                GameObject playerGO = GameObject.Instantiate(_playerPrefab);
+                player = playerGO.GetComponent<Player>();
+                player.Setup(key);
+                GGJGameManager.AddPlayer(key, player);
+            }
         }
     }
 
@@ -49,7 +56,7 @@ public class JoinGameState : IGameState
 
     public void OnStateExit()
     {
-        for(int i = _groundBlocks.Count; i >= 0; i--)
+        for(int i = _groundBlocks.Count - 1; i >= 0; i--)
         {
             GameObject block = _groundBlocks[i];
             _groundBlocks.RemoveAt(i);
