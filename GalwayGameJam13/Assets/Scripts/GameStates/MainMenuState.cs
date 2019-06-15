@@ -18,4 +18,9 @@ public class MainMenuState : IGameState
     {
 
     }
+
+    public void OnStateUpdate(float deltaTime)
+    {
+
+    }
 }

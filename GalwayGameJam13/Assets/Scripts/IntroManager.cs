@@ -12,6 +12,5 @@ public class IntroManager : MonoBehaviour
     public void startGame()
     {
         UnityEngine.SceneManagement.SceneManager.LoadScene("Game");
-        GGJGameManager.SetState("joinGame");
     }
 }

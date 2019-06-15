@@ -22,4 +22,9 @@ public class PlayState : IGameState
     {
 
     }
+
+    public void OnStateUpdate(float deltaTime)
+    {
+
+    }
 }

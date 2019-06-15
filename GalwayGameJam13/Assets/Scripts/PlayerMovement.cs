@@ -12,11 +12,11 @@ public class PlayerMovement : MonoBehaviour
     public Health_Script health;
 
     public float runSpeed = 40f;
-    public Vector2 deathKick = new Vector2(25f, 25f);
 
     float horizontalMove = 0f;
     bool jump = false;
     bool crouch = false;
+    float newSpeed = 0f;
 
     void Start()
     {
@@ -26,12 +26,9 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float deltaTime = Time.deltaTime;
-        if(health.alive == false)
-        {
-            return;
-        }
-        horizontalMove = transform.position.x + (runSpeed * deltaTime);
+        if(health.alive == true){
+
+        horizontalMove = transform.position.x + runSpeed;
 
         animator.SetFloat("Speed", horizontalMove);
 
@@ -39,6 +36,13 @@ public class PlayerMovement : MonoBehaviour
         {
             jump = true;
             animator.SetBool("IsJumping", true);
+        }
+    }
+
+        else
+        {
+            animator.SetFloat("Speed", newSpeed);
+            return;
         }
     }
 

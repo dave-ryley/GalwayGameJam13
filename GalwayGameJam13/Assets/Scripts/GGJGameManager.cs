@@ -65,6 +65,15 @@ public class GGJGameManager : MonoBehaviour
         return _players.ContainsKey(key);
     }
 
+    void Update()
+    {
+        float deltaTime = Time.deltaTime;
+        foreach(KeyValuePair<string, IGameState> statePair in _gameStates)
+        {
+            statePair.Value.OnStateUpdate(deltaTime);
+        }
+    }
+
 #region Public members
 
     public static void AddPlayer(string playerKey, Player player)
