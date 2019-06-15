@@ -25,8 +25,8 @@ public class JoinGameState : IGameState
         TextPrefab = Resources.Load("Prefabs/Continue") as GameObject;
         _groundPrefab = Resources.Load("Prefabs/GroundBlock") as GameObject;
     }
-    
-    public void HandleInput(string key)
+
+    public void HandleKeyDown(string key)
     {
         if(key.Equals("space"))
         {
@@ -37,7 +37,7 @@ public class JoinGameState : IGameState
             Player player;
             if(GGJGameManager.TryGetPlayer(key, out player))
             {
-                // GGJGameManager.RemovePlayer(key);
+                player.ResetSize();
                 player.Jump();
             }
             else
@@ -47,6 +47,24 @@ public class JoinGameState : IGameState
                 player.Setup(key);
                 GGJGameManager.AddPlayer(key, player);
             }
+        }
+    }
+
+    public void HandleKeyHold(string key)
+    {
+        Player player;
+        if(GGJGameManager.TryGetPlayer(key, out player))
+        {
+            player.Grow();
+        }
+    }
+
+    public void HandleKeyUp(string key)
+    {
+        Player player;
+        if(GGJGameManager.TryGetPlayer(key, out player))
+        {
+            player.ResetSize();
         }
     }
 
@@ -62,7 +80,7 @@ public class JoinGameState : IGameState
             block.transform.position = new Vector3(i, -3, 0);
             _groundBlocks.Add(block);
         }
-       
+
     }
 
     public void OnStateExit()

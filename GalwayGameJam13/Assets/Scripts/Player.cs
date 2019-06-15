@@ -5,36 +5,73 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class Player : MonoBehaviour
 {
-    const float GROUNDED_RADIUS = 0.2f;
+    const float GROUNDED_RADIUS = 0.1f;
+    const float PLAYER_RADIUS = 0.7f;
     const float TURN_SPEED = 2f;
     [SerializeField] private float _jumpForce = 600f;
     private LayerMask _groundLayer;
+    private LayerMask _obstacleLayer;
     private float _prevRotation = 0f;
-
     private RectTransform _graphicTransform;
     private Rigidbody2D _rigidbody2D;
-    private bool _grounded;
     private float _transition = 1f;
+    private float _growOffset = 0f;
+
     public int score = 0;
 
     public void Setup(string key)
     {
+        gameObject.name = key;
         _graphicTransform = transform.Find("Graphic") as RectTransform;
         Transform textTransform = _graphicTransform.Find("Letter");
         TextMesh text = textTransform.GetComponent<TextMesh>();
         text.text = key.ToUpper();
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _groundLayer = LayerMask.GetMask("Ground");
+        _obstacleLayer = LayerMask.GetMask("Obstacle");
     }
 
     public void Jump()
     {
-        if(_grounded)
+        bool grounded = false;
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, GROUNDED_RADIUS, _groundLayer);
+        for (int i = 0; i < colliders.Length; i++)
         {
-            _grounded = false;
+            if (colliders[i].gameObject != gameObject)
+            {
+                grounded = true;
+                break;
+            }
+        }
+        if(grounded)
+        {
             _rigidbody2D.AddForce(new Vector2(0f, _jumpForce));
             _transition = 0f;
         }
+    }
+
+    public void Grow()
+    {
+        float deltaTime = Time.deltaTime;
+        _growOffset += Time.deltaTime;
+        if(_growOffset > 1f)
+        {
+            GGJGameManager.KillPlayer(this);
+            return;
+        }
+        else if(_growOffset > 0.3)
+        {
+            float offset = _growOffset - 0.3f;
+            _graphicTransform.localPosition = new Vector3(Mathf.Sin(offset*100) * offset, _graphicTransform.localPosition.y, 0f);
+            _graphicTransform.localScale = new Vector3(1f + offset, 1f + offset);
+        }
+    }
+
+    public void ResetSize()
+    {
+        _growOffset = 0f;
+        _graphicTransform.localScale = Vector3.one;
+        _graphicTransform.localPosition = new Vector3(0f, _graphicTransform.localPosition.y, 0f);
     }
 
     public void Update()
@@ -55,17 +92,15 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, GROUNDED_RADIUS, _groundLayer);
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position + new Vector3(0f, 0.5f, 0f), PLAYER_RADIUS, _obstacleLayer);
         for (int i = 0; i < colliders.Length; i++)
         {
             if (colliders[i].gameObject != gameObject)
             {
-                // if (!_grounded) OnLandEvent.Invoke();
-                _grounded = true;
+                GGJGameManager.KillPlayer(this);
                 return;
             }
         }
-        _grounded = false;
     }
 
     public void ReceieveCoins(int amount)

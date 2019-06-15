@@ -37,9 +37,19 @@ public class GGJGameManager : MonoBehaviour
         _curGameState.OnStateEnter();
     }
 
-    private void handleInput(string inputKey)
+    private void handleKeyDown(string inputKey)
     {
-        _curGameState.HandleInput(inputKey);
+        _curGameState.HandleKeyDown(inputKey);
+    }
+
+    private void handleKeyUp(string inputKey)
+    {
+        _curGameState.HandleKeyUp(inputKey);
+    }
+
+    private void handleKeyHold(string inputKey)
+    {
+        _curGameState.HandleKeyHold(inputKey);
     }
 
     private void setState(string stateKey)
@@ -72,6 +82,12 @@ public class GGJGameManager : MonoBehaviour
     {
         _players.Add(playerKey, player);
         _cameraGroupManager.AddTarget(player.transform);
+    }
+
+    private void killPlayer(Player player)
+    {
+        _players.Remove(player.gameObject.name);
+        Object.Destroy(player.gameObject);
     }
 
     private bool hasPlayer(string key)
@@ -116,16 +132,24 @@ public class GGJGameManager : MonoBehaviour
         return _instance.getPlayerNames();
     }
 
-    public static void RemovePlayer(string key)
+    public static void KillPlayer(Player player)
     {
-        Player player = _instance._players[key];
-        _instance._players.Remove(key);
-        Object.Destroy(player.gameObject);
+        _instance.killPlayer(player);
     }
 
-    public static void HandleInput(string inputKey)
+    public static void HandleKeyDown(string inputKey)
     {
-        _instance.handleInput(inputKey);
+        _instance.handleKeyDown(inputKey);
+    }
+
+    public static void HandleKeyHold(string inputKey)
+    {
+        _instance.handleKeyHold(inputKey);
+    }
+
+    public static void HandleKeyUp(string inputKey)
+    {
+        _instance.handleKeyUp(inputKey);
     }
 
     public static void SetState(string stateKey)

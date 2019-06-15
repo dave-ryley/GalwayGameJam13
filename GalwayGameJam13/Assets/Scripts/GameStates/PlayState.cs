@@ -13,13 +13,25 @@ public class PlayState : IGameState
         TextPrefab = Resources.Load("Prefabs/ScoreUI") as GameObject;
     }
 
-
-    public void HandleInput(string key)
+    public void HandleKeyDown(string key)
     {
         Player player;
         if(GGJGameManager.TryGetPlayer(key, out player))
         {
             player.Jump();
+        }
+    }
+
+    public void HandleKeyHold(string key)
+    {
+    }
+
+    public void HandleKeyUp(string key)
+    {
+        Player player;
+        if(GGJGameManager.TryGetPlayer(key, out player))
+        {
+            player.ResetSize();
         }
     }
 

@@ -1,7 +1,9 @@
 ﻿
 public interface IGameState
 {
-    void HandleInput(string key);
+    void HandleKeyDown(string key);
+    void HandleKeyHold(string key);
+    void HandleKeyUp(string key);
     void OnStateEnter();
     void OnStateExit();
     void OnStateUpdate(float deltaTime);

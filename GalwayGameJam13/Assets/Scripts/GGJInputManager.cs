@@ -14,7 +14,15 @@ public class GGJInputManager : MonoBehaviour
         {
             if(Input.GetKeyDown(_inputs[i]))
             {
-                GGJGameManager.HandleInput(_inputs[i]);
+                GGJGameManager.HandleKeyDown(_inputs[i]);
+            }
+            if(Input.GetKey(_inputs[i]))
+            {
+                GGJGameManager.HandleKeyHold(_inputs[i]);
+            }
+            if(Input.GetKeyUp(_inputs[i]))
+            {
+                GGJGameManager.HandleKeyUp(_inputs[i]);
             }
         }
     }
