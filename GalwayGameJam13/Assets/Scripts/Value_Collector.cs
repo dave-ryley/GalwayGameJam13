@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Value_Collector : MonoBehaviour
 {
-    float coinsCollected = 0f;
+    float coinsCollected = 0;
 
     public void ReceieveCoins(float amount)
     {

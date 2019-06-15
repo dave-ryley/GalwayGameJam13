@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class AddCoinsToPlayer : MonoBehaviour
 {
-    public float coinValue = 1f;
+    public int coinValue = 1;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.gameObject.tag == "Player")
         {
-            collision.gameObject.GetComponent<Value_Collector>().ReceieveCoins(coinValue);
+            collision.gameObject.GetComponent<Player>().ReceieveCoins(coinValue);
             Destroy(gameObject);
         }
     }
