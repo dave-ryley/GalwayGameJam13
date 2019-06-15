@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Health_Script : MonoBehaviour
 {
-    public float curr_health = 50f;
-    public float max_health = 100f;
+    public float curr_health = 10f;
+    public float max_health = 10f;
     public bool alive = true;
     public Animator animator;
 
@@ -17,6 +17,7 @@ public class Health_Script : MonoBehaviour
 
     public void TakeDamage(float Damage_amount)
     {
+        curr_health -= Damage_amount;
         if(!alive)
         {
             return;
@@ -27,6 +28,5 @@ public class Health_Script : MonoBehaviour
             alive = false;
             animator.SetTrigger("Die");
         }
-        curr_health -= Damage_amount;
     }
 }
