@@ -10,6 +10,8 @@ public class GGJGameManager : MonoBehaviour
     private GGJInputManager _inputManager;
     private Dictionary<string, IGameState> _gameStates;
     private IGameState _curGameState;
+    private CameraGroupManager _cameraGroupManager;
+    private Dictionary<string, Player> _players;
 
     void Awake()
     {
@@ -17,6 +19,7 @@ public class GGJGameManager : MonoBehaviour
         Assert.IsNull(_instance);
         _instance = this;
         _curGameState = new MainMenuState();
+        _players = new Dictionary<string, Player>();
         _gameStates = new Dictionary<string, IGameState>()
         {
             { "mainMenu", _curGameState },
@@ -46,7 +49,45 @@ public class GGJGameManager : MonoBehaviour
         }
     }
 
+    private void registerCameraGroup(CameraGroupManager cameraGroupManager)
+    {
+        _cameraGroupManager = cameraGroupManager;
+    }
+
+    private void addPlayer(string playerKey, Player player)
+    {
+        _players.Add(playerKey, player);
+        _cameraGroupManager.AddTarget(player.transform);
+    }
+
+    private bool hasPlayer(string key)
+    {
+        return _players.ContainsKey(key);
+    }
+
 #region Public members
+
+    public static void AddPlayer(string playerKey, Player player)
+    {
+        _instance.addPlayer(playerKey, player);
+    }
+
+    public static bool HasPlayer(string key)
+    {
+        return _instance.hasPlayer(key);
+    }
+
+    public static bool TryGetPlayer(string key, out Player player)
+    {
+        return _instance._players.TryGetValue(key, out player);
+    }
+
+    public static void RemovePlayer(string key)
+    {
+        Player player = _instance._players[key];
+        _instance._players.Remove(key);
+        Object.Destroy(player.gameObject);
+    }
 
     public static void HandleInput(string inputKey)
     {
@@ -56,6 +97,11 @@ public class GGJGameManager : MonoBehaviour
     public static void SetState(string stateKey)
     {
         _instance.setState(stateKey);
+    }
+
+    public static void RegisterCameraGroup(CameraGroupManager cameraGroupManager)
+    {
+        _instance.registerCameraGroup(cameraGroupManager);
     }
 
 #endregion

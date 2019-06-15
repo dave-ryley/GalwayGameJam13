@@ -4,15 +4,10 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public void Setup(string key)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        Transform textTransform = transform.GetChild(0);
+        TextMesh text = textTransform.GetComponent<TextMesh>();
+        text.text = key.ToUpper();
     }
 }
