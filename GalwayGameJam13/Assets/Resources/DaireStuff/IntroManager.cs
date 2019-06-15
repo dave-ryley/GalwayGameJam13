@@ -11,6 +11,7 @@ public class IntroManager : MonoBehaviour
 
     public void startGame()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene(1);
+        //UnityEngine.SceneManagement.SceneManager.LoadScene(1);
+        FindObjectOfType<MusicPlayer>().Setup();
     }
 }
