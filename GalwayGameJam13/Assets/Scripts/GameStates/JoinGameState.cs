@@ -16,7 +16,8 @@ public class JoinGameState : IGameState
         Player player;
         if(GGJGameManager.TryGetPlayer(key, out player))
         {
-            GGJGameManager.RemovePlayer(key);
+            // GGJGameManager.RemovePlayer(key);
+            player.Jump();
         }
         else
         {

@@ -20,17 +20,18 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
-           
+
     }
 
     // Update is called once per frame
     void Update()
     {
+        float deltaTime = Time.deltaTime;
         if(health.alive == false)
         {
             return;
         }
-        horizontalMove = transform.position.x + runSpeed;
+        horizontalMove = transform.position.x + (runSpeed * deltaTime);
 
         animator.SetFloat("Speed", horizontalMove);
 
