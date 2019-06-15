@@ -44,7 +44,7 @@ public class GGJGameManager : MonoBehaviour
     private void setState(string stateKey)
     {
         IGameState newState;
-        if(_gameStates.TryGetValue(stateKey, out newState))
+        if (_gameStates.TryGetValue(stateKey, out newState))
         {
             _curGameState.OnStateExit();
             _curGameState = newState;
@@ -90,6 +90,14 @@ public class GGJGameManager : MonoBehaviour
 
 
     #region Public members
+    void Update()
+    {
+        float deltaTime = Time.deltaTime;
+        foreach (KeyValuePair<string, IGameState> statePair in _gameStates)
+        {
+            statePair.Value.OnStateUpdate(deltaTime);
+        }
+    }
 
     public static void AddPlayer(string playerKey, Player player)
     {
@@ -137,5 +145,5 @@ public class GGJGameManager : MonoBehaviour
         _instance.registerCameraGroup(cameraGroupManager);
     }
 
-#endregion
+    #endregion
 }

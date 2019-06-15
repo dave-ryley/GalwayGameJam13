@@ -18,4 +18,9 @@ public class GameOverState : IGameState
     {
 
     }
+
+    public void OnStateUpdate(float deltaTime)
+    {
+
+    }
 }
