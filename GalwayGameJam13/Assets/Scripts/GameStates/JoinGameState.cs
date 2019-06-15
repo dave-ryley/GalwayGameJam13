@@ -1,16 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class JoinGameState : IGameState
 {
     private GameObject _playerPrefab;
+    private GameObject _canvasPrefab;
+    private GameObject TextPrefab;
+    private GameObject _textPrefab;
 
     public JoinGameState()
     {
         _playerPrefab = Resources.Load("Prefabs/Player") as GameObject;
+        _canvasPrefab = Resources.Load("Prefabs/Canvas") as GameObject;
+        TextPrefab = Resources.Load("Prefabs/Continue") as GameObject;
     }
-
+    
     public void HandleInput(string key)
     {
         Player player;
@@ -29,7 +35,9 @@ public class JoinGameState : IGameState
 
     public void OnStateEnter()
     {
-
+        GameObject canvas = Object.Instantiate(_canvasPrefab);
+        _textPrefab = Object.Instantiate(TextPrefab);
+        _textPrefab.transform.SetParent(canvas.transform, false);
     }
 
     public void OnStateExit()

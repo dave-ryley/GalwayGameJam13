@@ -12,4 +12,6 @@ public class Player : MonoBehaviour
         TextMesh text = textTransform.GetComponent<TextMesh>();
         text.text = key.ToUpper();
     }
+
+
 }

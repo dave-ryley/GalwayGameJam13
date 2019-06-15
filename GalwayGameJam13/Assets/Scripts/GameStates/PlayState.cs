@@ -5,12 +5,12 @@ using UnityEngine.UI;
 
 public class PlayState : IGameState
 {
-    private Text scoreUI;
-    //private GameObject _playerPrefab;
+    private GameObject TextPrefab;
+    private GameObject _textPrefab;
 
     public PlayState()
     {
-        //_playerPrefab = Resources.Load("Prefabs/Player") as GameObject;
+        TextPrefab = Resources.Load("Prefabs/ScoreUI") as GameObject;
     }
 
 
@@ -21,15 +21,19 @@ public class PlayState : IGameState
 
     public void OnStateEnter()
     {
-        scoreUI = Object.FindObjectOfType<Text>();
+        var scoreLayouts = GameObject.FindGameObjectsWithTag("Score");
         List<string> names = GGJGameManager.GetPlayerNames();
-        Debug.Log("names.Count = " + names.Count);
-        scoreUI.text = "";
+        int j = 0;
         for (int i = 0; i < names.Count; i++)
         {
+            if (scoreLayouts[j].transform.childCount > 9) { j++; }
+            _textPrefab = Object.Instantiate(TextPrefab);
             Player player;
             GGJGameManager.TryGetPlayer(names[i], out player);
-            scoreUI.text += names[i] + ": " + player.score + "\t";
+            _textPrefab.GetComponent<Text>().text =  names[i].ToUpper() + ": " + player.score;
+            
+           
+            _textPrefab.transform.SetParent(scoreLayouts[j].transform, false);
         }  
         
         GGJGameManager.SetMusic(true);
