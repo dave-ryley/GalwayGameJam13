@@ -51,6 +51,7 @@ public class PlayState : IGameState
             Player player;
             GGJGameManager.TryGetPlayer(names[i], out player);
             _textPrefab.GetComponent<Text>().text = names[i].ToUpper() + ": " + player.score;
+            _textPrefab.gameObject.name = "Text:" + names[i];
 
 
             _textPrefab.transform.SetParent(scoreLayouts[j].transform, false);

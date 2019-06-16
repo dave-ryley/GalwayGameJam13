@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class Player : MonoBehaviour
@@ -11,6 +12,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float _jumpForce = 600f;
     private LayerMask _groundLayer;
     private LayerMask _obstacleLayer;
+    private LayerMask _coinLayer;
     private float _prevRotation = 0f;
     private RectTransform _graphicTransform;
     private Rigidbody2D _rigidbody2D;
@@ -29,6 +31,7 @@ public class Player : MonoBehaviour
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _groundLayer = LayerMask.GetMask("Ground");
         _obstacleLayer = LayerMask.GetMask("Obstacle");
+        _coinLayer = LayerMask.GetMask("Coin");
     }
 
     public void Jump()
@@ -101,10 +104,26 @@ public class Player : MonoBehaviour
                 return;
             }
         }
+
+        colliders = Physics2D.OverlapCircleAll(transform.position + new Vector3(0f, 0.5f, 0f), PLAYER_RADIUS, _coinLayer);
+        for (int i = 0; i < colliders.Length; i++)
+        {
+            if (colliders[i].gameObject != gameObject)
+            {
+                this.receieveCoins(1);
+                Destroy(colliders[i].gameObject);
+                return;
+            }
+
+        }
     }
 
-    public void ReceieveCoins(int amount)
+    public void receieveCoins(int amount)
     {
         score += amount;
+        GameObject.Find("Text:" + this.gameObject.name).GetComponent<Text>().text = this.gameObject.name.ToUpper() + ": " + this.score;
     }
 }
+
+    
+
