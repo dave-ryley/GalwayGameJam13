@@ -10,7 +10,7 @@ public class AddCoinsToPlayer : MonoBehaviour
     {
         if(collision.gameObject.tag == "Player")
         {
-            collision.gameObject.GetComponent<Player>().ReceieveCoins(coinValue);
+            collision.gameObject.GetComponent<Player>().receieveCoins(coinValue);
             Destroy(gameObject);
         }
     }

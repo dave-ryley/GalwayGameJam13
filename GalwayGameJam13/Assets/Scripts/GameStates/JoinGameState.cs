@@ -29,11 +29,11 @@ public class JoinGameState : IGameState
 
     public void HandleKeyDown(string key)
     {
-        if(key.Equals("space"))
+        if(key.Equals("space") && GGJGameManager.PlayerCount() > 0)
         {
             GGJGameManager.SetState("play");
         }
-        else
+        else if (!key.Equals("space"))
         {
             Player player;
             if(GGJGameManager.TryGetPlayer(key, out player))

@@ -88,11 +88,20 @@ public class GGJGameManager : MonoBehaviour
     {
         _players.Remove(player.gameObject.name);
         Object.Destroy(player.gameObject);
+        if (_players.Count <= 0 && _curGameState is PlayState )
+        {
+            setState("gameOver");
+        }
     }
 
     private bool hasPlayer(string key)
     {
         return _players.ContainsKey(key);
+    }
+
+    private int playerCount()
+    {
+        return _players.Count;
     }
 
     private List<string> getPlayerNames()
@@ -153,6 +162,10 @@ public class GGJGameManager : MonoBehaviour
         _instance.killPlayer(player);
     }
 
+    public static int PlayerCount()
+    {
+        return _instance.playerCount();
+    }
     public static void HandleKeyDown(string inputKey)
     {
         _instance.handleKeyDown(inputKey);
