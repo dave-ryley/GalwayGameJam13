@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class JoinGameState : IGameState
 {
@@ -10,6 +11,9 @@ public class JoinGameState : IGameState
     private const float SPEED = 5f;
 
     private GameObject _playerPrefab;
+    private GameObject _canvasPrefab;
+    private GameObject TextPrefab;
+    private GameObject _textPrefab;
     private GameObject _groundPrefab;
     private List<GameObject> _groundBlocks;
 
@@ -17,39 +21,71 @@ public class JoinGameState : IGameState
     {
         _groundBlocks = new List<GameObject>();
         _playerPrefab = Resources.Load("Prefabs/Player") as GameObject;
+        //_canvasPrefab = Resources.Load("Prefabs/Canvas") as GameObject;
+        TextPrefab = Resources.Load("Prefabs/Continue") as GameObject;
         _groundPrefab = Resources.Load("Prefabs/GroundBlock") as GameObject;
     }
 
-    public void HandleInput(string key)
+    public void HandleKeyDown(string key)
+    {
+        if(key.Equals("space"))
+        {
+            GGJGameManager.SetState("play");
+        }
+        else
+        {
+            Player player;
+            if(GGJGameManager.TryGetPlayer(key, out player))
+            {
+                player.ResetSize();
+                player.Jump();
+            }
+            else
+            {
+                GameObject playerGO = GameObject.Instantiate(_playerPrefab);
+                player = playerGO.GetComponent<Player>();
+                player.Setup(key);
+                GGJGameManager.AddPlayer(key, player);
+            }
+        }
+    }
+
+    public void HandleKeyHold(string key)
     {
         Player player;
         if(GGJGameManager.TryGetPlayer(key, out player))
         {
-            // GGJGameManager.RemovePlayer(key);
-            player.Jump();
+            player.Grow();
         }
-        else
+    }
+
+    public void HandleKeyUp(string key)
+    {
+        Player player;
+        if(GGJGameManager.TryGetPlayer(key, out player))
         {
-            GameObject playerGO = GameObject.Instantiate(_playerPrefab);
-            player = playerGO.GetComponent<Player>();
-            player.Setup(key);
-            GGJGameManager.AddPlayer(key, player);
+            player.ResetSize();
         }
     }
 
     public void OnStateEnter()
     {
-        for(int i = BLOCK_START; i < BLOCK_START + BLOCK_COUNT; i += BLOCK_WIDTH)
+        /* GameObject canvas = Object.Instantiate(_canvasPrefab);
+         _textPrefab = Object.Instantiate(TextPrefab);
+         _textPrefab.transform.SetParent(canvas.transform, false);
+          */
+        for (int i = BLOCK_START; i < BLOCK_START + BLOCK_COUNT; i += BLOCK_WIDTH)
         {
             GameObject block = GameObject.Instantiate(_groundPrefab);
             block.transform.position = new Vector3(i, -3, 0);
             _groundBlocks.Add(block);
         }
+
     }
 
     public void OnStateExit()
     {
-        for(int i = _groundBlocks.Count; i >= 0; i--)
+        for(int i = _groundBlocks.Count - 1; i >= 0; i--)
         {
             GameObject block = _groundBlocks[i];
             _groundBlocks.RemoveAt(i);

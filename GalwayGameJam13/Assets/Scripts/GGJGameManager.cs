@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
+[RequireComponent(typeof(GGJAudioManager))]
 [RequireComponent(typeof(GGJInputManager))]
 public class GGJGameManager : MonoBehaviour
 {
     private static GGJGameManager _instance;
     private GGJInputManager _inputManager;
+    private GGJAudioManager _audioManager;
     private Dictionary<string, IGameState> _gameStates;
     private IGameState _curGameState;
     private CameraGroupManager _cameraGroupManager;
@@ -29,24 +31,46 @@ public class GGJGameManager : MonoBehaviour
         };
         _inputManager = GetComponent<GGJInputManager>();
         _inputManager.Setup();
+        _audioManager = GetComponent<GGJAudioManager>();
+        _audioManager.Setup();
 
         _curGameState.OnStateEnter();
     }
 
-    private void handleInput(string inputKey)
+    private void handleKeyDown(string inputKey)
     {
-        _curGameState.HandleInput(inputKey);
+        _curGameState.HandleKeyDown(inputKey);
+    }
+
+    private void handleKeyUp(string inputKey)
+    {
+        _curGameState.HandleKeyUp(inputKey);
+    }
+
+    private void handleKeyHold(string inputKey)
+    {
+        _curGameState.HandleKeyHold(inputKey);
     }
 
     private void setState(string stateKey)
     {
         IGameState newState;
-        if(_gameStates.TryGetValue(stateKey, out newState))
+        if (_gameStates.TryGetValue(stateKey, out newState))
         {
             _curGameState.OnStateExit();
             _curGameState = newState;
             newState.OnStateEnter();
         }
+    }
+
+    private void setMusic(bool musicActive)
+    {
+        if (musicActive)
+        {
+            _audioManager.Stop();
+            _audioManager.Play();
+        }
+        else { _audioManager.Stop(); }
     }
 
     private void registerCameraGroup(CameraGroupManager cameraGroupManager)
@@ -60,21 +84,33 @@ public class GGJGameManager : MonoBehaviour
         _cameraGroupManager.AddTarget(player.transform);
     }
 
+    private void killPlayer(Player player)
+    {
+        _players.Remove(player.gameObject.name);
+        Object.Destroy(player.gameObject);
+    }
+
     private bool hasPlayer(string key)
     {
         return _players.ContainsKey(key);
     }
 
-    void Update()
+    private List<string> getPlayerNames()
     {
-        float deltaTime = Time.deltaTime;
-        foreach(KeyValuePair<string, IGameState> statePair in _gameStates)
+        var names = new List<string>();
+        foreach (var item in _players)
         {
-            statePair.Value.OnStateUpdate(deltaTime);
+            names.Add(item.Key);
         }
+        return names;
     }
 
-#region Public members
+
+    #region Public members
+    void Update()
+    {
+        _curGameState.OnStateUpdate(Time.deltaTime);
+    }
 
     public static void AddPlayer(string playerKey, Player player)
     {
@@ -91,16 +127,29 @@ public class GGJGameManager : MonoBehaviour
         return _instance._players.TryGetValue(key, out player);
     }
 
-    public static void RemovePlayer(string key)
+    public static List<string> GetPlayerNames()
     {
-        Player player = _instance._players[key];
-        _instance._players.Remove(key);
-        Object.Destroy(player.gameObject);
+        return _instance.getPlayerNames();
     }
 
-    public static void HandleInput(string inputKey)
+    public static void KillPlayer(Player player)
     {
-        _instance.handleInput(inputKey);
+        _instance.killPlayer(player);
+    }
+
+    public static void HandleKeyDown(string inputKey)
+    {
+        _instance.handleKeyDown(inputKey);
+    }
+
+    public static void HandleKeyHold(string inputKey)
+    {
+        _instance.handleKeyHold(inputKey);
+    }
+
+    public static void HandleKeyUp(string inputKey)
+    {
+        _instance.handleKeyUp(inputKey);
     }
 
     public static void SetState(string stateKey)
@@ -108,10 +157,14 @@ public class GGJGameManager : MonoBehaviour
         _instance.setState(stateKey);
     }
 
+    public static void SetMusic(bool musicActive)
+    {
+        _instance.setMusic(musicActive);
+    }
     public static void RegisterCameraGroup(CameraGroupManager cameraGroupManager)
     {
         _instance.registerCameraGroup(cameraGroupManager);
     }
 
-#endregion
+    #endregion
 }

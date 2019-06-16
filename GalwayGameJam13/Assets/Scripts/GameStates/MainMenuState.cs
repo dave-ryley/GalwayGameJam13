@@ -4,7 +4,15 @@ using UnityEngine;
 
 public class MainMenuState : IGameState
 {
-    public void HandleInput(string key)
+    public void HandleKeyDown(string key)
+    {
+
+    }
+    public void HandleKeyHold(string key)
+    {
+
+    }
+    public void HandleKeyUp(string key)
     {
 
     }

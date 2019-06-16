@@ -37,4 +37,9 @@ public class PauseMenu : MonoBehaviour
         _pausePanel.transform.Find("QuitButton").GetComponent<Button>().onClick.AddListener(QuitLevel);
         _pausePanel.GetComponent<RectTransform>().SetParent(Canvas.GetComponent<RectTransform>(), false);
     }
+
+    public void TestUI()
+    {
+        GGJGameManager.SetState("play");
+    }
 }
