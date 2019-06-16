@@ -105,6 +105,18 @@ public class GGJGameManager : MonoBehaviour
         return names;
     }
 
+    private GameObject[] sortTags(string tag)
+    {
+        GameObject[] foundObs = GameObject.FindGameObjectsWithTag(tag);
+        System.Array.Sort(foundObs, CompareObNames);
+        return foundObs;
+    }
+
+
+    int CompareObNames(GameObject x, GameObject y)
+    {
+        return x.name.CompareTo(y.name);
+    }
 
     #region Public members
     void Update()
@@ -122,6 +134,10 @@ public class GGJGameManager : MonoBehaviour
         return _instance.hasPlayer(key);
     }
 
+    public static GameObject[] SortTags(string tag)
+    {
+        return _instance.sortTags(tag);
+    }
     public static bool TryGetPlayer(string key, out Player player)
     {
         return _instance._players.TryGetValue(key, out player);

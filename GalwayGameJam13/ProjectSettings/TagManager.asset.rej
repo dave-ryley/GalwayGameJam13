@@ -1,0 +1,14 @@
+diff a/GalwayGameJam13/ProjectSettings/TagManager.asset b/GalwayGameJam13/ProjectSettings/TagManager.asset	(rejected hunks)
+@@ -15,9 +15,9 @@
+   - UI
+   - 
+   - 
+-  - 
+-  - 
+-  - 
++  - Player
++  - Ground
++  - Obstacle
+   - 
+   - 
+   - 
