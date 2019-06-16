@@ -16,13 +16,17 @@ public class Player : MonoBehaviour
     private float _prevRotation = 0f;
     private RectTransform _graphicTransform;
     private Rigidbody2D _rigidbody2D;
+    private SpriteRenderer sprite;
     private float _transition = 1f;
     private float _growOffset = 0f;
+    public const string LAYER_NAME = "Player";
 
     public int score = 0;
 
     public void Setup(string key)
     {
+        sprite = GetComponent<SpriteRenderer>();
+        sprite.sortingLayerName = LAYER_NAME;
         gameObject.name = key;
         _graphicTransform = transform.Find("Graphic") as RectTransform;
         Transform textTransform = _graphicTransform.Find("Letter");
