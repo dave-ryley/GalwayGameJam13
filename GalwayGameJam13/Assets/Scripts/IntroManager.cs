@@ -12,6 +12,7 @@ public class IntroManager : MonoBehaviour
 
     public void startGame()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene("Game");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("DaireGame");
+
     }
 }

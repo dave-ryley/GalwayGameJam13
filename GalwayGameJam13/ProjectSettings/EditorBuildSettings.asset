@@ -5,10 +5,16 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
+  - enabled: 0
+    path: Assets/__DELETED_GUID_Trash/9fc0d4010bbf28b4594072e72b8655ab
     guid: 9fc0d4010bbf28b4594072e72b8655ab
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Game.unity
     guid: d83fe75f8e2e249f6afdfa1dcf6e49df
+  - enabled: 1
+    path: Assets/Scenes/DaireMenu.unity
+    guid: 8980179597ceb7d499c55536e522c773
+  - enabled: 1
+    path: Assets/Scenes/DaireGame.unity
+    guid: 52ee814235d32d64ea03e2227d9f1f49
   m_configObjects: {}

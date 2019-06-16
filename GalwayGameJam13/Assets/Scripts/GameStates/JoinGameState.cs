@@ -21,7 +21,7 @@ public class JoinGameState : IGameState
     {
         _groundBlocks = new List<GameObject>();
         _playerPrefab = Resources.Load("Prefabs/Player") as GameObject;
-        //_canvasPrefab = Resources.Load("Prefabs/Canvas") as GameObject;
+        _canvasPrefab = Resources.Load("Prefabs/Canvas") as GameObject;
         TextPrefab = Resources.Load("Prefabs/Continue") as GameObject;
         _groundPrefab = Resources.Load("Prefabs/GroundBlock") as GameObject;
     }
@@ -52,10 +52,8 @@ public class JoinGameState : IGameState
 
     public void OnStateEnter()
     {
-        /* GameObject canvas = Object.Instantiate(_canvasPrefab);
-         _textPrefab = Object.Instantiate(TextPrefab);
-         _textPrefab.transform.SetParent(canvas.transform, false);
-          */
+         GameObject canvas = Object.Instantiate(_canvasPrefab);
+         
         for (int i = BLOCK_START; i < BLOCK_START + BLOCK_COUNT; i += BLOCK_WIDTH)
         {
             GameObject block = GameObject.Instantiate(_groundPrefab);
@@ -67,6 +65,7 @@ public class JoinGameState : IGameState
 
     public void OnStateExit()
     {
+        GameObject.Destroy(GameObject.Find("Space"));
         for(int i = _groundBlocks.Count - 1; i >= 0; i--)
         {
             GameObject block = _groundBlocks[i];

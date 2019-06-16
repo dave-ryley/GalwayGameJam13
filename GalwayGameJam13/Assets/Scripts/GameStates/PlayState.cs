@@ -25,20 +25,20 @@ public class PlayState : IGameState
 
     public void OnStateEnter()
     {
-        // var scoreLayouts = GameObject.FindGameObjectsWithTag("Score");
-        // List<string> names = GGJGameManager.GetPlayerNames();
-        // int j = 0;
-        // for (int i = 0; i < names.Count; i++)
-        // {
-        //     if (scoreLayouts[j].transform.childCount > 9) { j++; }
-        //     _textPrefab = Object.Instantiate(TextPrefab);
-        //     Player player;
-        //     GGJGameManager.TryGetPlayer(names[i], out player);
-        //     _textPrefab.GetComponent<Text>().text =  names[i].ToUpper() + ": " + player.score;
+         var scoreLayouts = GameObject.FindGameObjectsWithTag("Score");
+         List<string> names = GGJGameManager.GetPlayerNames();
+         int j = 0;
+         for (int i = 0; i < names.Count; i++)
+         {
+             if (scoreLayouts[j].transform.childCount > 9) { j++; }
+             _textPrefab = Object.Instantiate(TextPrefab);
+             Player player;
+             GGJGameManager.TryGetPlayer(names[i], out player);
+             _textPrefab.GetComponent<Text>().text =  names[i].ToUpper() + ": " + player.score;
 
 
-        //     _textPrefab.transform.SetParent(scoreLayouts[j].transform, false);
-        // }
+             _textPrefab.transform.SetParent(scoreLayouts[j].transform, false);
+         }
 
         GGJGameManager.SetMusic(true);
 
